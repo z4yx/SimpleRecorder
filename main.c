@@ -20,25 +20,38 @@ int main()
 {
 	int i;
 	struct picture_t pic;
+	struct encoded_pic_t encoded_pic;
 	errno = 0;
 	if(!camera_init(&pic))
-		goto error;
+		goto error_cam;
+	if(!encoder_init(&pic)){
+		fprintf(stderr,"failed to initialize encoder\n");
+		goto error_encoder;
+	}
 	if(!preview_init(&pic))
 		goto error_preview;
 	if(!output_init())
 		goto error_output;
+	if(!encoder_encode_headers(&encoded_pic))
+		goto error_output;
+	if(!output_write_headers(&encoded_pic))
+		goto error_output;
 	if(!camera_on())
 		goto error_cam_on;
 
-	for(i = 0; i<100; i++){
+	for(i = 0; i<200; i++){
 		printf("\r\x1b[K");
 		
-		camera_get_frame(&pic);
+		if(!camera_get_frame(&pic))
+			break;
 		gen_osd_info();
 		osd_print(&pic, osd_string);
 		if((i&7)==0) // i%8==0
 			preview_display(&pic);
-		output_write(pic.buffer, pic.width*pic.height*3/2);
+		if(!encoder_encode_frame(&pic, &encoded_pic))
+			break;
+		if(!output_write_frame(&encoded_pic))
+			break;
 	}
 	putchar('\n');
 
@@ -48,7 +61,9 @@ error_cam_on:
 error_output:
 	preview_close();
 error_preview:
+	encoder_close();
+error_encoder:
 	camera_close();
-error:
+error_cam:
 	return 0;
 }

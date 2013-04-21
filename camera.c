@@ -143,7 +143,7 @@ int camera_get_frame(struct picture_t *pic)
 		perror("VIDIOC_DQBUF");
 		return 0;
 	}
-	printf("buf_index=%02d, seq=%d, timestamp=%d-%d", 
+	printf("buf_index=%02d, seq=%d, timestamp=%d%06d", 
 		cam_buf.index, cam_buf.sequence, (int)cam_buf.timestamp.tv_sec, (int)cam_buf.timestamp.tv_usec);
 	fflush(stdout);
 
@@ -152,7 +152,7 @@ int camera_get_frame(struct picture_t *pic)
 		perror("v4lconvert_convert");
 		return 0;
 	}
-
+	current_pic.timestamp = cam_buf.timestamp;
 	cam_buf.flags = cam_buf.reserved = 0;
 	if(ioctl(fd_cam, VIDIOC_QBUF, &cam_buf) < 0) {
 		perror("VIDIOC_QBUF");
