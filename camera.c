@@ -143,9 +143,8 @@ int camera_get_frame(struct picture_t *pic)
 		perror("VIDIOC_DQBUF");
 		return 0;
 	}
-	printf("buf_index=%02d, seq=%d, timestamp=%d%06d", 
+	applog("buf_index=%02d, seq=%d, timestamp=%d%06d", 
 		cam_buf.index, cam_buf.sequence, (int)cam_buf.timestamp.tv_sec, (int)cam_buf.timestamp.tv_usec);
-	fflush(stdout);
 
 	if(v4lconvert_convert(lib, &src_fmt, &dst_fmt, (void*)buf_pointer[cam_buf.index], 
 		cam_buf.length, current_pic.buffer, YUV420_size) <= 0){

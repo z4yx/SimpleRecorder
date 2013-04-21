@@ -99,17 +99,16 @@ int encoder_encode_frame(struct picture_t *raw_pic, struct encoded_pic_t *output
 		output->length = i_frame_size;
 		output->timepoint = pic_out.i_pts;
 		if(pic_out.i_type == X264_TYPE_P){
-			printf(", frame_type=P");
+			applog(", frame_type=P");
 			output->frame_type = FRAME_TYPE_P;
 		}else if(IS_X264_TYPE_B(pic_out.i_type)){
-			printf(", frame_type=B");
+			applog(", frame_type=B");
 			output->frame_type = FRAME_TYPE_B;
 		}else{
-			printf(", frame_type=I");
+			applog(", frame_type=I");
 			output->frame_type = FRAME_TYPE_I;
 		}
-		printf(", timepoint=%lld", output->timepoint);
-		fflush(stdout);
+		applog(", timepoint=%lld", output->timepoint);
 	}else{
 		output->length = 0;
 	}

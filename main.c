@@ -40,8 +40,6 @@ int main()
 		goto error_cam_on;
 
 	for(i = 0; i<200; i++){
-		printf("\r\x1b[K");
-		
 		if(!camera_get_frame(&pic))
 			break;
 		gen_osd_info();
@@ -50,6 +48,7 @@ int main()
 			preview_display(&pic);
 		if(!encoder_encode_frame(&pic, &encoded_pic))
 			break;
+		applog_flush();
 		if(!output_write_frame(&encoded_pic))
 			break;
 	}
