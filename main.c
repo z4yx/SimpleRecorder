@@ -31,6 +31,8 @@ int main()
 		goto error_cam_on;
 
 	for(i = 0; i<100; i++){
+		printf("\r\x1b[K");
+		
 		camera_get_frame(&pic);
 		gen_osd_info();
 		osd_print(&pic, osd_string);
@@ -38,6 +40,7 @@ int main()
 			preview_display(&pic);
 		output_write(pic.buffer, pic.width*pic.height*3/2);
 	}
+	putchar('\n');
 
 	camera_off();
 error_cam_on:
