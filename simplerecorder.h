@@ -7,3 +7,7 @@ int output_init();
 int output_write(unsigned char *pic, int len);
 void output_close();
 void osd_print(struct picture_t *pic, const char *str);
+int preview_init(struct picture_t *info);
+int preview_display(struct picture_t *pic);
+void preview_close();
+
