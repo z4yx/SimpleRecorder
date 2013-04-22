@@ -1,6 +1,6 @@
 SOURCE=$(wildcard *.c)
 OBJS=$(patsubst %.c,%.o,$(SOURCE))
-CC=gcc
+CC=arm-none-linux-gnueabi-gcc
 
 all: simplerecorder
 

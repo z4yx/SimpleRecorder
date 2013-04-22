@@ -20,18 +20,13 @@ int encoder_init(struct picture_t *info)
 {
 	x264_param_t param;
 
-	if(x264_param_default_preset(&param, "medium", "")<0)
+	if(x264_param_default_preset(&param, "superfast", "")<0)
 		return 0;
-	param.i_threads = 2;
+	param.i_threads = 1;
 	param.i_width = info->width;
 	param.i_height = info->height;
 	param.i_fps_num = DEFAULT_FPS;
 	param.i_fps_den = 1;
-	param.i_frame_reference = 3;
-	param.i_bframe = 2;
-	param.i_bframe_adaptive = 2;
-	param.i_bframe_pyramid = 2;
-	param.i_keyint_max = 250;
  
 	param.b_annexb = 1;
  

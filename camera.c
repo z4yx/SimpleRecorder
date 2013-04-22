@@ -11,7 +11,7 @@
 #include <libv4lconvert.h>
 #include "picture_t.h"
 
-#define CAM_NAME "/dev/video0"
+#define CAM_NAME "/dev/video3"
 #define NUM_BUF  10
 
 static struct v4lconvert_data *lib;
