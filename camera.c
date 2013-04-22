@@ -37,7 +37,6 @@ static int get_format()
 
 	printf("current format: %s %dx%d %d\n", pixel, fmt.fmt.pix.width, fmt.fmt.pix.height, fmt.fmt.pix.sizeimage);
 
-	current_pic.fourcc = fmt.fmt.pix.pixelformat;
 	current_pic.width = fmt.fmt.pix.width;
 	current_pic.height = fmt.fmt.pix.height;
 
