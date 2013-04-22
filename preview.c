@@ -28,7 +28,7 @@ static unsigned char *scr_buf, *bgr24_buf;
 		int b = (y) + ((((u) - 128) * 1814) >> 10); b > 255 ? 255 : b < 0 ? 0 : b; })
 
 #define CLIP(color) (unsigned char)(((color) > 0xFF) ? 0xff : (((color) < 0) ? 0 : (color)))
-void v4lconvert_yuv420_to_bgr24(const unsigned char *src, unsigned char *dest,
+void v4lconvert_yuv420_to_bgr24__(const unsigned char *src, unsigned char *dest,
 		int width, int height, int yvu)
 {
 	int i, j;
@@ -144,7 +144,7 @@ int preview_display(struct picture_t *pic)
 	int min_width = min(pic->width, scr_width);
 	int min_height = min(pic->height, scr_height);
 
-	v4lconvert_yuv420_to_bgr24(pic->buffer, bgr24_buf, pic->width, pic->height, 0);
+	v4lconvert_yuv420_to_bgr24__(pic->buffer, bgr24_buf, pic->width, pic->height, 0);
 
 	if(scr_bpp == 32){
 		int i,j;
