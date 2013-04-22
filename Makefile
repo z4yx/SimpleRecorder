@@ -9,4 +9,4 @@ simplerecorder: $(OBJS)
 %.o: %.c
 	$(CC) -Wall -c $< -o $@
 clean:
-	rm *.o simplerecorder
+	rm $(OBJS) simplerecorder
