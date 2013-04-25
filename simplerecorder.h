@@ -4,7 +4,7 @@ int camera_get_frame(struct picture_t *pic);
 int camera_off();
 void camera_close();
 
-int output_init();
+int output_init(struct picture_t *info);
 int output_write_headers(struct encoded_pic_t *headers);
 int output_write_frame(struct encoded_pic_t *encoded);
 void output_close();
