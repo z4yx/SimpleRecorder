@@ -10,7 +10,7 @@
 #include <x264.h>
 #include "picture_t.h"
 
-#define DEFAULT_FPS 15
+#define DEFAULT_FPS 25
 
 static x264_t *encoder;
 static x264_picture_t pic_in, pic_out;

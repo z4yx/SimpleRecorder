@@ -30,7 +30,7 @@ int main()
 	}
 	if(!preview_init(&pic))
 		goto error_preview;
-	if(!output_init())
+	if(!output_init(&pic))
 		goto error_output;
 	if(!encoder_encode_headers(&encoded_pic))
 		goto error_output;
