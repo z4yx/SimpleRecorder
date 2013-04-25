@@ -6,15 +6,21 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <signal.h>
 #include <time.h>
 #include "picture_t.h"
 #include "simplerecorder.h"
 
+static int recording;
 static char osd_string[20];
 static void gen_osd_info()
 {
 	time_t t = time(0);
 	strftime(osd_string, 20, "%Y-%m-%d %H:%M:%S",localtime(&t));
+}
+void stop_recording(int param)
+{
+	recording = 0;
 }
 int main()
 {
@@ -38,8 +44,13 @@ int main()
 		goto error_output;
 	if(!camera_on())
 		goto error_cam_on;
-
-	for(i = 0; i<200; i++){
+	if(signal(SIGINT, stop_recording) == SIG_ERR){
+		fprintf(stderr,"signal() failed\n");
+		goto error_signal;
+	}
+	printf("Press ctrl-c to stop recording...\n");
+	recording = 1;
+	for(i=0; recording; i++){
 		if(!camera_get_frame(&pic))
 			break;
 		gen_osd_info();
@@ -52,8 +63,9 @@ int main()
 		if(!output_write_frame(&encoded_pic))
 			break;
 	}
-	putchar('\n');
+	printf("\nrecorded %d frames\n", i);
 
+error_signal:
 	camera_off();
 error_cam_on:
 	output_close();
