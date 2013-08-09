@@ -9,6 +9,7 @@
 #include <time.h>
 #include "MFC_API/SsbSipMfcApi.h"
 #include "picture_t.h"
+#include "log.h"
 
 #define DEFAULT_FPS 25
 
@@ -193,6 +194,10 @@ int encoder_encode_frame(struct picture_t *raw_pic, struct encoded_pic_t *output
 	applog(", length=%d, timepoint=%lld", output->length, output->timepoint);
 
 	return 1;
+}
+void encoder_release(struct encoded_pic_t *output)
+{
+
 }
 void encoder_close()
 {

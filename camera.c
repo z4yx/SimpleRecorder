@@ -10,6 +10,7 @@
 #include <sys/ioctl.h>
 #include <libv4lconvert.h>
 #include "picture_t.h"
+#include "log.h"
 
 #define CAM_NAME "/dev/video3"
 #define NUM_BUF  10

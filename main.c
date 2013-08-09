@@ -10,6 +10,7 @@
 #include <time.h>
 #include "picture_t.h"
 #include "simplerecorder.h"
+#include "log.h"
 
 static int recording;
 static char osd_string[20];
@@ -42,6 +43,7 @@ int main()
 		goto error_output;
 	if(!output_write_headers(&encoded_pic))
 		goto error_output;
+	encoder_release(&encoded_pic);
 	if(!camera_on())
 		goto error_cam_on;
 	if(signal(SIGINT, stop_recording) == SIG_ERR){
@@ -62,6 +64,7 @@ int main()
 		applog_flush();
 		if(!output_write_frame(&encoded_pic))
 			break;
+		encoder_release(&encoded_pic);
 	}
 	printf("\nrecorded %d frames\n", i);
 
