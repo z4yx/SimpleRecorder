@@ -10,6 +10,7 @@
 #include <time.h>
 #include "picture_t.h"
 #include "simplerecorder.h"
+#include "log.h"
 
 static int recording;
 static char osd_string[20];

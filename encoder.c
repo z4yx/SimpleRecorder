@@ -9,6 +9,7 @@
 #include <time.h>
 #include <x264.h>
 #include "picture_t.h"
+#include "log.h"
 
 #define DEFAULT_FPS 25
 
