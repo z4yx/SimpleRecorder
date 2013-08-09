@@ -114,6 +114,10 @@ int encoder_encode_frame(struct picture_t *raw_pic, struct encoded_pic_t *output
 	}
 	return 1;
 }
+void encoder_release(struct encoded_pic_t *output)
+{
+
+}
 void encoder_close()
 {
 	x264_encoder_close(encoder);

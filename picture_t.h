@@ -11,4 +11,5 @@ struct encoded_pic_t{
 	int length;
 	unsigned long long timepoint; //(us)
 	enum H264_FRAME_TYPE frame_type;
+	void * usr_def;
 };
