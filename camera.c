@@ -36,7 +36,7 @@ static int get_format()
 	*(int*)pixel = fmt.fmt.pix.pixelformat;
 	pixel[4] = '\0';
 
-	printf("current format: %s %dx%d %d\n", pixel, fmt.fmt.pix.width, fmt.fmt.pix.height, fmt.fmt.pix.sizeimage);
+	printf("input format: %s %dx%d %d\n", pixel, fmt.fmt.pix.width, fmt.fmt.pix.height, fmt.fmt.pix.sizeimage);
 
 	current_pic.width = fmt.fmt.pix.width;
 	current_pic.height = fmt.fmt.pix.height;
@@ -58,7 +58,7 @@ static int buf_alloc_mmap()
 		perror("VIDIOC_REQBUFS");
 		return 0;
 	}
-	printf("camera buffer number: %d\n", reqbuf.count);
+	printf("%d camera buffers\n", reqbuf.count);
 
 	for(i=0; i<reqbuf.count; i++) {
 		

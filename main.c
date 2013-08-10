@@ -66,7 +66,7 @@ int main()
 			break;
 		encoder_release(&encoded_pic);
 	}
-	printf("\nrecorded %d frames\n", i);
+	printf("\n%d frames recorded\n", i);
 
 error_signal:
 	camera_off();
