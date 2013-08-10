@@ -36,7 +36,7 @@ static int get_format()
 	*(int*)pixel = fmt.fmt.pix.pixelformat;
 	pixel[4] = '\0';
 
-	printf("current format: %s %dx%d %d\n", pixel, fmt.fmt.pix.width, fmt.fmt.pix.height, fmt.fmt.pix.sizeimage);
+	printf("input format: %s %dx%d %d\n", pixel, fmt.fmt.pix.width, fmt.fmt.pix.height, fmt.fmt.pix.sizeimage);
 
 	current_pic.width = fmt.fmt.pix.width;
 	current_pic.height = fmt.fmt.pix.height;
@@ -58,7 +58,7 @@ static int buf_alloc_mmap()
 		perror("VIDIOC_REQBUFS");
 		return 0;
 	}
-	printf("camera buffer number: %d\n", reqbuf.count);
+	printf("%d camera buffers\n", reqbuf.count);
 
 	for(i=0; i<reqbuf.count; i++) {
 		
@@ -89,6 +89,32 @@ static void free_buf_mmap()
 	for(i=0; i<reqbuf.count; i++)
 		munmap(buf_pointer[i], buffers[i].length);
 }
+static int set_para()
+{
+	int input = 0, width, height;
+	static struct v4l2_format format = {0};
+
+	ioctl (fd_cam, VIDIOC_S_INPUT, &input);
+
+	format.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+	if(ioctl(fd_cam, VIDIOC_G_FMT, &format) < 0) {
+		perror("VIDIOC_G_FMT");
+		return 0;
+	}
+	width = format.fmt.pix.width;
+	height = format.fmt.pix.height;
+
+	memset(&format, 0, sizeof(format));
+
+	format.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+	format.fmt.pix.width       = width;
+	format.fmt.pix.height      = height;
+	format.fmt.pix.pixelformat = V4L2_PIX_FMT_YUV420;
+	format.fmt.pix.field       = V4L2_FIELD_INTERLACED;
+	ioctl (fd_cam, VIDIOC_S_FMT, &format);
+
+	return 1;
+}
 int camera_init(struct picture_t *out_info)
 {
 	fd_cam = open(CAM_NAME, O_RDWR);
@@ -96,6 +122,8 @@ int camera_init(struct picture_t *out_info)
 		perror("open camera " CAM_NAME);
 		return 0;
 	}
+	if(!set_para())
+		goto label_close;
 	if(!get_format())
 		goto label_close;
 

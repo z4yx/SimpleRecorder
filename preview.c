@@ -114,7 +114,7 @@ int preview_init(struct picture_t *info)
 	scr_width = vinfo.xres;
 	scr_height = vinfo.yres;
 
-	printf("framebuffer width=%d,height=%d,bpp:=%d\n", scr_width, scr_height, scr_bpp);
+	printf("framebuffer: width=%d, height=%d, bpp=%d\n", scr_width, scr_height, scr_bpp);
 	if(scr_bpp!=32 && scr_bpp!=24){
 		fprintf(stderr, "%s\n", "scr_bpp!=32 && scr_bpp!=24, not supported");
 		goto error;
